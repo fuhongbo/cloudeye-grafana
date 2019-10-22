@@ -14,9 +14,10 @@ Login (http://local_ip:3000) to check whether the cloudeye-grafana install succe
 
 ### Config
 
-(https://github.com/huaweicloud/cloudeye-grafana/blob/master/config.png)
+![image](https://github.com/huaweicloud/cloudeye-grafana/blob/master/config.png)
 
 
 ### How to use it
 Choose one value of the "Project", "Metric" and "Dimention" to see the metric data.
 
+![image](https://github.com/huaweicloud/cloudeye-grafana/blob/master/dashboard.png)
