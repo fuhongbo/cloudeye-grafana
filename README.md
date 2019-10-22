@@ -4,17 +4,14 @@
 
 Use this datasource if you want to use Cloudeye to query your [Cloud Service Resources metrics](https://support.huaweicloud.com/en-us/api-ces/en-us_topic_0171212568.html).
 
+### Install Grafana Instructions on the Grafana Docs Site
 
-## Installation
-Install grafana first, such as:
-```
-wget https://dl.grafana.com/oss/release/grafana_6.3.5_amd64.deb
-sudo apt-get install -y adduser libfontconfig1
-sudo dpkg -i grafana_6.3.5_amd64.deb
+- [Installing on Debian/Ubuntu](http://docs.grafana.org/installation/debian/)
+- [Installing on RPM-based Linux (CentOS, Fedora, OpenSuse, RedHat)](http://docs.grafana.org/installation/rpm/)
+- [Installing on Windows](http://docs.grafana.org/installation/windows/)
+- [Installing on Mac](http://docs.grafana.org/installation/mac/)
 
-sudo apt-get install grafana
-service grafana-server start
-```
+## Installation cloudeye-grafana
 
 Installation cloudeye-grafana:
 Copy cloudeye-grafana to datasource folder of grafana to install this plugin.
