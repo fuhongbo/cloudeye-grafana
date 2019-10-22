@@ -2,6 +2,8 @@
 
 [Cloud Eye](https://www.huaweicloud.com/en-us/product/ces.html) is a multi-dimensional resource monitoring platform. You can use Cloud Eye to monitor the utilization of service resources, track the running status of cloud services, configure alarm rules and notifications, and quickly respond to resource changes.
 
+Use this datasource if you want to use Cloudeye to query your [Cloud Service Resources metrics](https://support.huaweicloud.com/en-us/api-ces/en-us_topic_0171212568.html).
+
 ## Installation
 
 Copy cloudeye-grafana to datasource folder of grafana to install this plugin:
