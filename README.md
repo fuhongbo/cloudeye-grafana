@@ -2,7 +2,6 @@
 
 More documentation about datasource plugins can be found in the [Docs](https://github.com/grafana/grafana/blob/master/docs/sources/plugins/developing/datasources.md).
 
-）
 ## Installation
 
 Copy cloudeye-grafana to datasource folder of grafana to install this plugin:
@@ -16,4 +15,8 @@ Login (http://local_ip:3000) to check whether the cloudeye-grafana install succe
 ### Config
 
 
+
+
+### How to use it
+Choose one value of the "Project", "Metric" and "Dimention" to see the metric data.
 
