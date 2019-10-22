@@ -14,7 +14,7 @@ Login (http://local_ip:3000) to check whether the cloudeye-grafana install succe
 
 ### Config
 
-
+(dashboard.png)
 
 
 ### How to use it
