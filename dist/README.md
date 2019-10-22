@@ -56,11 +56,11 @@ Example `timeserie` request
      { "target": "upper_50", "refId": "A", "type": "timeserie" },
      { "target": "upper_75", "refId": "B", "type": "timeserie" }
   ],
-  "adhocFilters": [{
-    "key": "City",
+  "adhocFilters": [
+    "key": "City"
     "operator": "=",
     "value": "Berlin"
-  }],
+  ]
   "format": "json",
   "maxDataPoints": 550
 }
@@ -107,7 +107,7 @@ If the metric selected is `"type": "table"`, an example `table` response:
 
 ### Annotation API
 
-The annotation request from the Cloudeye JSON Datasource is a POST request to
+The annotation request from the cloudeye JSON Datasource is a POST request to
 the `/annotations` endpoint in your datasource. The JSON request body looks like this:
 ``` javascript
 {
@@ -121,7 +121,7 @@ the `/annotations` endpoint in your datasource. The JSON request body looks like
   },
   "annotation": {
     "name": "deploy",
-    "datasource": "Cloudeye JSON Datasource",
+    "datasource": "cloudeye JSON Datasource",
     "iconColor": "rgba(255, 96, 96, 1)",
     "enable": true,
     "query": "#deploy"
