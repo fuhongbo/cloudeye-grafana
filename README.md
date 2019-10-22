@@ -14,7 +14,7 @@ Login (http://local_ip:3000) to check whether the cloudeye-grafana install succe
 
 ### Config
 
-(dashboard.png)
+(https://github.com/huaweicloud/cloudeye-grafana/blob/master/config.png)
 
 
 ### How to use it
