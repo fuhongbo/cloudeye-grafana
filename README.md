@@ -1,6 +1,6 @@
 ## Cloudeye Datasource
 
-More documentation about datasource plugins can be found in the [Docs](https://github.com/grafana/grafana/blob/master/docs/sources/plugins/developing/datasources.md).
+[Cloud Eye](https://www.huaweicloud.com/en-us/product/ces.html) is a multi-dimensional resource monitoring platform. You can use Cloud Eye to monitor the utilization of service resources, track the running status of cloud services, configure alarm rules and notifications, and quickly respond to resource changes.
 
 ## Installation
 
