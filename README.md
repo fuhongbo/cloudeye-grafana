@@ -25,7 +25,8 @@ Login (http://local_ip:3000) to check whether the cloudeye-grafana install succe
 ### Config
 
 To create your own datasorce, added "URL", "Domain", "Project", "User", "Password" in the following image.
-The "URL" value can be get from [Identity and Access Management (IAM) endpoint list](https://developer.huaweicloud.com/en-us/endpoint)
+
+The "URL" value can be get from [Identity and Access Management (IAM) endpoint list](https://developer.huaweicloud.com/en-us/endpoint).
 ![image](https://github.com/huaweicloud/cloudeye-grafana/blob/master/config.png)
 
 
