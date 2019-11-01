@@ -1,6 +1,6 @@
 {
   "name": "Cloudeye",
-  "id": "grafana-cloudeye-json-datasource",
+  "id": "cloudeye-grafana",
   "type": "datasource",
 
   "partials": {
@@ -13,19 +13,19 @@
   "info": {
     "description": "cloudeye json datasource",
     "author": {
-      "name": "Grafana Labs",
-      "url": "https://grafana.com"
+      "name": "Huaweicloud groups",
+      "url": "https://huaweicloud.com"
     },
     "logos": {
       "small": "img/cloudeye_logo.png",
       "large": "img/cloudeye_logo.png"
     },
     "links": [
-      {"name": "GitHub", "url": "https://github.com/grafana/cloudeye-json-datasource"},
-      {"name": "MIT License", "url": "https://github.com/grafana/cloudeye-json-datasource/blob/master/LICENSE"}
+      {"name": "GitHub", "url": "https://github.com/huaweicloud/cloudeye-grafana"},
+      {"name": "MIT License", "url": "https://github.com/huaweicloud/cloudeye-grafana/blob/master/LICENSE"}
     ],
-    "version": "1.4.0",
-    "updated": "2018-06-20"
+    "version": "0.0.1",
+    "updated": "2019-11-01"
   },
 
   "dependencies": {
