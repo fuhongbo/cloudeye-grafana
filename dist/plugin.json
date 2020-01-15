@@ -1,6 +1,6 @@
 {
   "name": "Cloudeye",
-  "id": "cloudeye-grafana-datasource",
+  "id": "grafana-cloudeye-json-datasource",
   "type": "datasource",
 
   "partials": {
@@ -31,8 +31,5 @@
   "dependencies": {
     "grafanaVersion": "3.x.x",
     "plugins": [ ]
-  },
-
-  "metrics": true,
-  "annotations": false
+  }
 }
