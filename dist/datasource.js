@@ -31,7 +31,7 @@ var GenericDatasource = exports.GenericDatasource = function () {
     this.default_headers = {
         'Content-Type': 'application/json'
     };
-    this.cesEndpoint = null;
+    this.cesEndpoint = "";
 
     if (typeof instanceSettings.basicAuth === 'string' && instanceSettings.basicAuth.length > 0) {
       this.headers['Authorization'] = instanceSettings.basicAuth;
@@ -83,13 +83,18 @@ var GenericDatasource = exports.GenericDatasource = function () {
     key: 'testDatasource',
     value: function testDatasource() {
         var _this = this;
-        return _this.backendSrv.datasourceRequest({
-            url: _this.url + '/v3',
+        return _this.doRequest({
+            extra_url: "/metrics",
             method: 'GET'
         }).then(function (result) {
             if (result.status === 200) {
                 return {status: "success", message: "Data source is working", title: "Success"};
+            } else {
+                return {status: "error", message: "Init data source is" +
+                        " failed, statue=" + JSON.stringify(result.status)};
             }
+        }).catch(function (error) {
+            return {status: "error", message: "Init data source is failed"};
         });
     }
   }, {
@@ -129,7 +134,7 @@ var GenericDatasource = exports.GenericDatasource = function () {
           var getMetrics = [];
 
           return _this.doRequest({
-              extra_url: '/metrics?',
+              extra_url:  '/metrics',
               method: 'GET'
           }).then(function (result) {
               _.each(result.data["metrics"], function (m) {
@@ -203,39 +208,41 @@ var GenericDatasource = exports.GenericDatasource = function () {
       };
 
       if (_this.cesEndpoint === null || _this.cesEndpoint === '') {
-          return _this.backendSrv.datasourceRequest({
-              url: _this.url + '/v3/auth/tokens',
-              method: 'POST',
-              data: getAuth
-          }).then(function (result) {
-              if (result.status === 201) {
-                  _this.default_headers['X-Auth-Token'] = result.headers('X-Subject-Token');
+        return _this.backendSrv.datasourceRequest({
+            url: _this.url + 'iam.' + this.jsonData.project + '.myhuaweicloud.com/v3/auth/tokens',
+            method: 'POST',
+            data: getAuth
+        }).then(function (result) {
+            if (result.status === 201) {
+                _this.default_headers['X-Auth-Token'] = result.headers('X-Subject-Token');
+                _this.default_headers['Accept'] = result.headers('application/json');
 
-                  _.each(result.data['token']['catalog'], function (service) {
-                      if (service['type'] === 'cesv1') {
-                          _.each(service['endpoints'], function (endpoint) {
-                              if (endpoint['interface'] === 'public') {
-                                  _this.cesEndpoint = _this.url.split(".")[0].replace('iam', '') + endpoint['url'].split("https://")[1];
-                              }
-                          });
-                      }});
-                  options.headers = _this.default_headers['X-Auth-Token'];
-                  options.url = _this.cesEndpoint + options.extra_url;
-                  return _this.backendSrv.datasourceRequest(options);
-              }
-          })
+                _.each(result.data['token']['catalog'], function (service) {
+                    if (service['type'] === 'cesv1') {
+                        _.each(service['endpoints'], function (endpoint) {
+                            if (endpoint['interface'] === 'public') {
+                                _this.cesEndpoint = _this.url + endpoint['url'].split(".com")[1];
+                            }
+                        });
+                    }});
+                options.headers = _this.default_headers;
+                options.url = _this.cesEndpoint + options.extra_url;
+                return _this.backendSrv.datasourceRequest(options);
+            }
+        }).catch(function (error) {
+            console.log(error);
+            // return error;
+            // return { data: error, code: '400' };
+            return;
+        })
       } else {
-          options.url = _this.cesEndpoint + options.extra_url
-          options.headers = _this.default_headers
+          options.url = _this.cesEndpoint + options.extra_url;
+          options.headers = _this.default_headers;
       }
 
       return this.backendSrv.datasourceRequest(options);
     }
   }, {
-    key: 'doAuth',
-    value: function doAuth(options) {
-    }
-  },{
     key: 'buildQueryParameters',
     value: function buildQueryParameters(options) {
       var _this = this;

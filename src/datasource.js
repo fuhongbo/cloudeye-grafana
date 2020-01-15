@@ -14,7 +14,7 @@ export class GenericDatasource {
     this.withCredentials = instanceSettings.withCredentials;
     this.headers = {'Content-Type': 'application/json'};
     this.default_headers = {'Content-Type': 'application/json'};
-    this.cesEndpoint = null;
+    this.cesEndpoint = "";
     this.jsonData = instanceSettings.jsonData;
     if (typeof instanceSettings.basicAuth === 'string' && instanceSettings.basicAuth.length > 0) {
       this.headers['Authorization'] = instanceSettings.basicAuth;
@@ -27,7 +27,7 @@ export class GenericDatasource {
   testDatasource() {
     var _this = this;
     return _this.backendSrv.datasourceRequest({
-        url: _this.url + '/v3',
+        url: _this.url,
         method: 'GET'
     }).then(function (result) {
         if (result.status === 200) {
@@ -60,9 +60,6 @@ export class GenericDatasource {
   }
 
   doRequest(options) {
-  }
-
-  doAuth() {
   }
 
   buildQueryParameters(options) {
