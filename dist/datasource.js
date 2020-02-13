@@ -209,7 +209,7 @@ var GenericDatasource = exports.GenericDatasource = function () {
 
       if (_this.cesEndpoint === null || _this.cesEndpoint === '') {
         return _this.backendSrv.datasourceRequest({
-            url: _this.url + 'iam.' + this.jsonData.project + '.myhuaweicloud.com/v3/auth/tokens',
+            url: _this.url + '/v3/auth/tokens',
             method: 'POST',
             data: getAuth
         }).then(function (result) {
