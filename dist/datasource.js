@@ -29,7 +29,7 @@ var GenericDatasource = exports.GenericDatasource = function () {
     this.withCredentials = instanceSettings.withCredentials;
     this.headers = { 'Content-Type': 'application/json' };
     this.default_headers = {
-        'Content-Type': 'application/json'
+      'Content-Type': 'application/json'
     };
     this.cesEndpoint = "";
 
@@ -50,7 +50,7 @@ var GenericDatasource = exports.GenericDatasource = function () {
         return this.q.when({ data: [] });
       }
       /////////////////////////////////////////////////////////////////////////////////////////////////////
-      var  target = options.targets[0];
+      var target = options.targets[0];
 
       var from = Date.parse(options.range.from);
       // var to = Date.parse(options.range.to);
@@ -58,44 +58,47 @@ var GenericDatasource = exports.GenericDatasource = function () {
       var getMetrics = [];
       var dps = [];
       return _this.doRequest({
-          // extra_url: "/metric-data?namespace=SYS.OBS" + "&metric_name=" + "first_byte_latency" + "&dim.0=bucket_name,spinnaker03" + "&from=1571563919000&to=1571650319000&period=1&filter=average",
-          extra_url: "/metric-data?namespace=" + target.project + "&metric_name=" + target.metric + "&dim.0=" + target.target + "&from=" + from + "&to=" + options.startTime + "&period=1&filter=average",
-          method: 'GET'
+        // extra_url: "/metric-data?namespace=SYS.OBS" + "&metric_name=" + "first_byte_latency" + "&dim.0=bucket_name,spinnaker03" + "&from=1571563919000&to=1571650319000&period=1&filter=average",
+        extra_url: "/metric-data?namespace=" + target.project + "&metric_name=" + target.metric + "&dim.0=" + target.target + "&from=" + from + "&to=" + options.startTime + "&period=1&filter=average",
+        method: 'GET'
       }).then(function (result) {
-          _.each(result.data["datapoints"], function (dp) {
-              var dataPoint = [];
-              dataPoint.push(dp["average"]);
-              dataPoint.push(dp["timestamp"]);
-              dps.push(dataPoint)
-          });
-          getMetrics.push({
-              "target": target.target,
-              "datapoints": dps
-          });
-          return {data: getMetrics};
+        _.each(result.data["datapoints"], function (dp) {
+          var dataPoint = [];
+          dataPoint.push(dp["average"]);
+          dataPoint.push(dp["timestamp"]);
+          dps.push(dataPoint)
+        });
+        getMetrics.push({
+          "target": target.target,
+          "datapoints": dps
+        });
+        return { data: getMetrics };
       }).catch(function (error) {
-          console.log(error);
-          getMetrics.push(JSON.stringify(error));
-          return _this.mapToTextValue({data: getMetrics});
+        console.log(error);
+        getMetrics.push(JSON.stringify(error));
+        return _this.mapToTextValue({ data: getMetrics });
       });
     }
   }, {
     key: 'testDatasource',
     value: function testDatasource() {
-        var _this = this;
-        return _this.doRequest({
-            extra_url: "/metrics",
-            method: 'GET'
-        }).then(function (result) {
-            if (result.status === 200) {
-                return {status: "success", message: "Data source is working", title: "Success"};
-            } else {
-                return {status: "error", message: "Init data source is" +
-                        " failed, statue=" + JSON.stringify(result.status)};
-            }
-        }).catch(function (error) {
-            return {status: "error", message: "Init data source is failed"};
-        });
+      //return {status: "success", message: "Data source is working", title: "Success"};
+      var _this = this;
+      return _this.doRequest({
+        extra_url: "/metrics",
+        method: 'GET'
+      }).then(function (result) {
+        if (result.status === 200) {
+          return { status: "success", message: "Data source is working", title: "Success" };
+        } else {
+          return {
+            status: "error", message: "Init data source is" +
+              " failed, statue=" + JSON.stringify(result)
+          };
+        }
+      }).catch(function (error) {
+        return { status: "error", message: "Init data source is failed", err: error };
+      });
     }
   }, {
     key: 'annotationQuery',
@@ -108,68 +111,68 @@ var GenericDatasource = exports.GenericDatasource = function () {
         target: this.templateSrv.replace(query, null, 'regex')
       };
 
-        var _this = this;
-        var getMetrics = [];
+      var _this = this;
+      var getMetrics = [];
 
-        return _this.doRequest({
-            extra_url: '/metrics?namespace=' + project + '&order=asc&metric_name=' + metric,
-            method: 'GET'
-        }).then(function (result) {
-            _.each(result.data["metrics"], function (m) {
-                _.each(m["dimensions"], function (dim) {
-                    getMetrics.push(dim["name"] + ',' + dim["value"]);
-                });
-            });
-
-            return _this.mapToTextValue({data: getMetrics});
-        }).catch(function (error) {
-                getMetrics.push(JSON.stringify(error));
-                return _this.mapToTextValue({data: getMetrics});
+      return _this.doRequest({
+        extra_url: '/metrics?namespace=' + project + '&order=asc&metric_name=' + metric,
+        method: 'GET'
+      }).then(function (result) {
+        _.each(result.data["metrics"], function (m) {
+          _.each(m["dimensions"], function (dim) {
+            getMetrics.push(dim["name"] + ',' + dim["value"]);
+          });
         });
+
+        return _this.mapToTextValue({ data: getMetrics });
+      }).catch(function (error) {
+        getMetrics.push(JSON.stringify(error));
+        return _this.mapToTextValue({ data: getMetrics });
+      });
     }
   }, {
-      key: "getProject",
-      value: function getProject() {
-          var _this = this;
-          var getMetrics = [];
+    key: "getProject",
+    value: function getProject() {
+      var _this = this;
+      var getMetrics = [];
 
-          return _this.doRequest({
-              extra_url:  '/metrics',
-              method: 'GET'
-          }).then(function (result) {
-              _.each(result.data["metrics"], function (m) {
-                  if (getMetrics.includes(m["namespace"]) === false) {
-                      getMetrics.push(m["namespace"]);
-                  }
-              });
+      return _this.doRequest({
+        extra_url: '/metrics',
+        method: 'GET'
+      }).then(function (result) {
+        _.each(result.data["metrics"], function (m) {
+          if (getMetrics.includes(m["namespace"]) === false) {
+            getMetrics.push(m["namespace"]);
+          }
+        });
 
-              return _this.mapToTextValue({data: getMetrics});
-          }).catch(function (error) {
-              console.log(JSON.stringify(error));
-          });
-      }
-  },{
-      key: "getMetrics",
-      value: function getMetrics(project) {
-          var _this = this;
-          var getMetrics = [];
-          return _this.doRequest({
-              extra_url: '/metrics?namespace=' + project,
-              method: 'GET'
-          }).then(function (result) {
-              _.each(result.data["metrics"], function (m) {
-                  if (getMetrics.includes(m["metric_name"]) === false) {
-                      getMetrics.push(m["metric_name"]);
-                  }
-              });
+        return _this.mapToTextValue({ data: getMetrics });
+      }).catch(function (error) {
+        console.log(JSON.stringify(error));
+      });
+    }
+  }, {
+    key: "getMetrics",
+    value: function getMetrics(project) {
+      var _this = this;
+      var getMetrics = [];
+      return _this.doRequest({
+        extra_url: '/metrics?namespace=' + project,
+        method: 'GET'
+      }).then(function (result) {
+        _.each(result.data["metrics"], function (m) {
+          if (getMetrics.includes(m["metric_name"]) === false) {
+            getMetrics.push(m["metric_name"]);
+          }
+        });
 
-              return _this.mapToTextValue({data: getMetrics});
+        return _this.mapToTextValue({ data: getMetrics });
 
-          }).catch(function (error) {
-              console.log(error);
-          });
-      }
-  },{
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+  }, {
     key: 'mapToTextValue',
     value: function mapToTextValue(result) {
       return _lodash2.default.map(result.data, function (d, i) {
@@ -187,57 +190,69 @@ var GenericDatasource = exports.GenericDatasource = function () {
       var _this = this;
       options.withCredentials = this.withCredentials;
       var getAuth = {
-          "auth": {
-              "identity": {
-                  "methods": ["password"],
-                  "password": {
-                      "user": {
-                          "name": this.jsonData.username,
-                          "password": this.jsonData.password,
-                          "domain": {"name": this.jsonData.domain}
-                      }
-                  }
-              },
-              "scope": {
-                  "project": {
-                      "domain": { "name": this.jsonData.domain },
-                      "name": this.jsonData.project
-                  }
+        "auth": {
+          "identity": {
+            "methods": ["password"],
+            "password": {
+              "user": {
+                "name": this.jsonData.username,
+                "password": this.jsonData.password,
+                "domain": { "name": this.jsonData.domain }
               }
-          }
-      };
-
-      if (_this.cesEndpoint === null || _this.cesEndpoint === '') {
-        return _this.backendSrv.datasourceRequest({
-            url: _this.url + '/v3/auth/tokens',
-            method: 'POST',
-            data: getAuth
-        }).then(function (result) {
-            if (result.status === 201) {
-                _this.default_headers['X-Auth-Token'] = result.headers('X-Subject-Token');
-                _this.default_headers['Accept'] = result.headers('application/json');
-
-                _.each(result.data['token']['catalog'], function (service) {
-                    if (service['type'] === 'cesv1') {
-                        _.each(service['endpoints'], function (endpoint) {
-                            if (endpoint['interface'] === 'public') {
-                                _this.cesEndpoint = _this.url + endpoint['url'].split(".com")[1];
-                            }
-                        });
-                    }});
-                options.headers = _this.default_headers;
-                options.url = _this.cesEndpoint + options.extra_url;
-                return _this.backendSrv.datasourceRequest(options);
             }
+          },
+          "scope": {
+            "project": {
+              "domain": { "name": this.jsonData.domain },
+              "name": this.jsonData.project
+            }
+          }
+        }
+      };
+      var x = 0;
+      if (_this.cesEndpoint === null || _this.cesEndpoint === '') {
+
+        return _this.backendSrv.datasourceRequest({
+          url: _this.url + '/v3/auth/tokens',
+          method: 'POST',
+          data: getAuth
+        }).then(function (result) {
+
+          if (result.status === 201) {
+            x = 2;
+            try {
+
+              _this.headers['X-Auth-Token'] = result.headers.get('X-Subject-Token');
+              _this.headers['Content-Type'] = 'application/json';
+              x = 3;
+              _.each(result.data['token']['catalog'], function (service) {
+                if (service['type'] === 'cesv1') {
+                  _.each(service['endpoints'], function (endpoint) {
+                    if (endpoint['interface'] === 'public') {
+                      _this.cesEndpoint = _this.url + endpoint['url'].split(".com")[1];
+                    }
+                  });
+                }
+              });
+              x = 4;
+              options.headers = _this.headers;
+              options.url = _this.cesEndpoint + options.extra_url;
+              x = 5;
+              return _this.backendSrv.datasourceRequest(options);
+            }
+            catch (err) {
+              return { data: err, x: x, result: result, code: '401' };
+            }
+          }
         }).catch(function (error) {
-            console.log(error);
-            // return error;
-            // return { data: error, code: '400' };
-            return;
+
+          return { data: error, x: x, result: options, code: '40s0' };
+
         })
       } else {
-          options.url = _this.cesEndpoint + options.extra_url;
-          options.headers = _this.default_headers;
+        options.url = _this.cesEndpoint + options.extra_url;
+        options.headers = _this.headers;
+
       }
 
       return this.backendSrv.datasourceRequest(options);
@@ -247,21 +262,21 @@ var GenericDatasource = exports.GenericDatasource = function () {
     value: function buildQueryParameters(options) {
       var _this = this;
 
-        //remove placeholder targets
-        options.targets = _lodash2.default.filter(options.targets, function (target) {
-            return target.target !== 'select metric';
-        });
+      //remove placeholder targets
+      options.targets = _lodash2.default.filter(options.targets, function (target) {
+        return target.target !== 'select metric';
+      });
 
-        var targets = _lodash2.default.map(options.targets, function (target) {
-            return {
-                target: _this.templateSrv.replace(target.target, options.scopedVars, 'regex'),
-                project: target.project,
-                metric: target.metric,
-                refId: target.refId,
-                hide: target.hide,
-                type: target.type || 'timeserie'
-            };
-        });
+      var targets = _lodash2.default.map(options.targets, function (target) {
+        return {
+          target: _this.templateSrv.replace(target.target, options.scopedVars, 'regex'),
+          project: target.project,
+          metric: target.metric,
+          refId: target.refId,
+          hide: target.hide,
+          type: target.type || 'timeserie'
+        };
+      });
 
       options.targets = targets;
 

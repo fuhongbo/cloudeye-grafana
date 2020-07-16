@@ -34,3 +34,9 @@ The "URL" value can be get from [Identity and Access Management (IAM) endpoint l
 Choose one value of the "Project", "Metric" and "Dimention" to see the metric data.
 
 ![image](https://github.com/huaweicloud/cloudeye-grafana/blob/master/dashboard.png)
+
+### Fixed
+
+1. 修复与 grafana 7.06 集成问题，增加了Reverse Proxy,用户反向代理到华为Cloud Eye API(当前填写服务器地址如果为IAM地址，那么后继查询会报错，如果写CES地址，会导致取Token报错，增加反向代理处理不同的API请求)  
+2. 修复了请求metric报错问题，未修复前取 X-Subject-Token 报错
+3. 修复了界面上无法显示Dimention 问题
